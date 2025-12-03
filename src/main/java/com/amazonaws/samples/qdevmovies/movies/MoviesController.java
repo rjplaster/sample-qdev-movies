@@ -72,7 +72,13 @@ public class MoviesController {
             
             return "movies";
             
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            logger.error("Arrr! Invalid search parameters provided: {}", e.getMessage(), e);
+            model.addAttribute("title", "Invalid Search Parameters");
+            model.addAttribute("message", "Arrr! Invalid search parameters provided, matey! Please check yer input and try again.");
+            model.addAttribute("pirateMessage", "🏴‍☠️ Ye've provided invalid coordinates for the treasure hunt! Check yer map and try again!");
+            return "error";
+        } catch (RuntimeException e) {
             logger.error("Arrr! Search encountered rough seas: {}", e.getMessage(), e);
             model.addAttribute("title", "Search Error");
             model.addAttribute("message", "Arrr! The search encountered rough seas, matey! Please try again.");
