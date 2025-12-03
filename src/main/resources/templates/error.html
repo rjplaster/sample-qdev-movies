@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} ?: 'Error'">Error</title>
+    <link rel="stylesheet" th:href="@{/css/movies.css}">
+    <style>
+        /* Pirate-themed error page styles */
+        .error-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #2c1810, #4a2c1a);
+            border: 3px solid #8b4513;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .error-title {
+            color: #ff6b6b;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .error-message {
+            color: #ffd700;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pirate-error-message {
+            background: linear-gradient(135deg, #1a4d3a, #2d5a47);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .error-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .error-actions {
+            margin-top: 40px;
+        }
+        
+        .btn-pirate {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: #ffd700;
+            border: 2px solid #654321;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-size: 1.1em;
+        }
+        
+        .btn-pirate:hover {
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            text-decoration: none;
+            color: #ffd700;
+        }
+        
+        .error-details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            color: #ccc;
+            font-family: monospace;
+            text-align: left;
+        }
+        
+        .skull-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .error-container {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .error-title {
+                font-size: 2em;
+            }
+            
+            .error-message {
+                font-size: 1em;
+            }
+            
+            .btn-pirate {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <div class="error-icon skull-animation">💀</div>
+            
+            <h1 class="error-title" th:text="${title} ?: 'Arrr! Something went wrong!'">
+                Arrr! Something went wrong!
+            </h1>
+            
+            <div class="error-message" th:text="${message} ?: 'The seas be rough today, matey!'">
+                The seas be rough today, matey!
+            </div>
+            
+            <!-- Pirate-themed error message if available -->
+            <div th:if="${pirateMessage}" class="pirate-error-message" th:text="${pirateMessage}">
+                🏴‍☠️ Pirate message here
+            </div>
+            
+            <!-- Default pirate message if none provided -->
+            <div th:unless="${pirateMessage}" class="pirate-error-message">
+                🏴‍☠️ Arrr! The kraken has caused some trouble on our ship! 
+                Don't worry matey, we'll get ye back to safe waters! 🏴‍☠️
+            </div>
+            
+            <div class="error-actions">
+                <a th:href="@{/movies}" class="btn-pirate">
+                    🏴‍☠️ Return to Treasure Chest
+                </a>
+                <a href="javascript:history.back()" class="btn-pirate">
+                    ⚓ Go Back
+                </a>
+                <a href="javascript:location.reload()" class="btn-pirate">
+                    🔄 Try Again
+                </a>
+            </div>
+            
+            <!-- Technical details for debugging (only show in development) -->
+            <div th:if="${#strings.contains(#request.requestURL, 'localhost')}" class="error-details">
+                <strong>🗺️ Technical Details for the Captain:</strong><br>
+                <span th:if="${timestamp}">Timestamp: <span th:text="${timestamp}"></span><br></span>
+                <span th:if="${status}">Status: <span th:text="${status}"></span><br></span>
+                <span th:if="${error}">Error: <span th:text="${error}"></span><br></span>
+                <span th:if="${path}">Path: <span th:text="${path}"></span><br></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
